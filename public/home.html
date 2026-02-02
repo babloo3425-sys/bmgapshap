@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BmGapShap – Home</title>
+
+    <link rel="stylesheet" href="/css/home.css" />
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <!-- HEADER -->
+      <div class="home-header">
+        <div class="title-wrap">
+          <span class="app-title">BmGapShap</span>
+          <span id="home-username"></span>
+          <span class="user-name" id="homeUserName"></span>
+        </div>
+
+        <div class="header-actions">
+          <span class="icon">⌗</span>
+          <span class="icon">📷</span>
+          <span class="icon" id="menuBtn">⋮</span>
+        </div>
+      </div>
+
+      <!-- MENU -->
+      <div class="menu-dropdown" id="menu" style="display: none">
+        <div class="menu-item" id="logoutBtn">Logout</div>
+      </div>
+
+      <!-- SEARCH -->
+      <div class="search-box">
+        <div class="search-input">🔍 Search or start new chat</div>
+      </div>
+
+      <!-- CHAT LIST -->
+      <div class="chat-list" id="chatList"></div>
+
+      <!-- ✅ BOTTOM NAV (MUST BE HERE) -->
+      <div class="bottom-nav">
+        <div class="nav-item active">💬<span>Chats</span></div>
+        <div class="nav-item">🔔<span>Updates</span></div>
+        <div class="nav-item">📞<span>Calls</span></div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
