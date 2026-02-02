@@ -139,7 +139,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      const user = localStorage.getItem("user");
+      const user = sessionStorage.getItem("user");
       if (!user) location.href = "index.html";
       document.getElementById("user").innerText = user;
 
@@ -147,7 +147,7 @@
       let selectedImage = null;
 
       function logout() {
-        localStorage.removeItem("user");
+        sessionStorage.removeItem("user");
         location.href = "index.html";
       }
 

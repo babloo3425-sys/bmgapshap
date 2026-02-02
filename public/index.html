@@ -9,7 +9,7 @@
       function go() {
         const n = document.getElementById("name").value;
         if (!n) return alert("name?");
-        localStorage.setItem("user", n);
+        sessionStorage.setItem("user", name);
         location.href = "home.html";
       }
     </script>
