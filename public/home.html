@@ -22,8 +22,30 @@
         justify-content: space-between;
         align-items: center;
       }
-
-      #chat {
+      <div
+        style="display:flex;flex:1;"
+        > <div
+        id="users"
+        style="
+          width:120px;
+          background:#f0f0f0;
+          padding:8px;
+          font-size:13px;
+          overflow-y:auto;
+        "
+        > <strong
+        > Online</strong
+        > <ul
+        id="userList"
+        style="list-style:none;padding-left:0;"
+        > </ul
+        > </div
+        > <div
+        id="chat"
+        style="flex:1;"
+        > </div
+        > </div
+        > #chat {
         flex: 1;
         padding: 10px;
         overflow-y: auto;
@@ -102,6 +124,62 @@
         text-align: right;
         margin-top: 4px;
       }
+
+      #users {
+        width: 120px;
+        background: #f0f0f0;
+        padding: 8px;
+        border-right: 1px solid #ccc;
+        overflow-y: auto;
+      }
+
+      .users-title {
+        font-weight: bold;
+        margin-bottom: 6px;
+      }
+
+      #userList {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      #userList li {
+        padding: 4px 0;
+        font-size: 13px;
+      }
+
+      #chat-area {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #chat {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+      }
+
+      .input-bar {
+        display: flex;
+        border-top: 1px solid #ccc;
+      }
+
+      .input-bar input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        outline: none;
+      }
+
+      .input-bar button {
+        background: #25d366;
+        border: none;
+        color: white;
+        padding: 0 12px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -110,17 +188,52 @@
       <button onclick="logout()">Logout</button>
     </div>
 
-    <div id="chat"></div>
+    <div style="display: flex; flex: 1; height: 100%">
+      <!-- LEFT: ONLINE USERS -->
+      <div
+        id="users"
+        style="
+          width: 120px;
+          background: #f0f0f0;
+          padding: 8px;
+          font-size: 13px;
+          overflow-y: auto;
+          border-right: 1px solid #ccc;
+        "
+      >
+        <strong>Online</strong>
+        <ul
+          id="userList"
+          style="list-style: none; padding-left: 0; margin: 0"
+        ></ul>
+      </div>
 
-    <form onsubmit="send(event)" style="display: flex; align-items: center">
-      <input type="file" id="image" accept="image/*" hidden />
-      <button type="button" onclick="pickImage()">📎</button>
+      <!-- RIGHT: CHAT AREA -->
+      <div
+        id="chat-area"
+        style="flex: 1; display: flex; flex-direction: column"
+      >
+        <!-- messages -->
+        <div id="chat" style="flex: 1; padding: 10px; overflow-y: auto"></div>
 
-      <button type="button" id="micBtn" onclick="toggleRecord()">🎙️</button>
-
-      <input id="msg" placeholder="Type a message..." autocomplete="off" />
-      <button>Send</button>
-    </form>
+        <!-- input bar -->
+        <form
+          onsubmit="send(event)"
+          style="display: flex; border-top: 1px solid #ccc"
+        >
+          <input type="file" id="image" accept="image/*" hidden />
+          <button type="button" onclick="pickImage()">📎</button>
+          <button type="button" id="micBtn" onclick="toggleRecord()">🎙️</button>
+          <input
+            id="msg"
+            placeholder="Type a message..."
+            autocomplete="off"
+            style="flex: 1; padding: 10px; border: none; outline: none"
+          />
+          <button>Send</button>
+        </form>
+      </div>
+    </div>
 
     <!-- preview should be ABOVE chat, not below -->
     <div

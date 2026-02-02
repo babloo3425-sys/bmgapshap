@@ -8,19 +8,23 @@ app.use(express.static("public"));
 // 🧠 in-memory message store
 const messages = [];
 
-io.on("connection", (socket) => {
-  console.log("User connected", socket.id);
+const onlineUsers = new Map(); // socket.id -> username
 
-  // send old messages to new user
-  socket.emit("oldMessages", messages);
+io.on("connection", (socket) => {
+  // jab client apna naam bataye
+  socket.on("join", (username) => {
+    onlineUsers.set(socket.id, username);
+    io.emit("onlineUsers", Array.from(onlineUsers.values()));
+  });
 
   socket.on("chat", (data) => {
-    messages.push(data); // save
-    io.emit("chat", data); // broadcast
+    messages.push(data);
+    io.emit("chat", data);
   });
 
   socket.on("disconnect", () => {
-    console.log("User disconnected", socket.id);
+    onlineUsers.delete(socket.id);
+    io.emit("onlineUsers", Array.from(onlineUsers.values()));
   });
 });
 
