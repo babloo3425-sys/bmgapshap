@@ -101,6 +101,21 @@
         location.href = "index.html";
       }
 
+      // 🔹 common function: message add karne ke liye
+      function addMessage(data) {
+        const div = document.createElement("div");
+        div.className = "msg " + (data.user === user ? "me" : "other");
+
+        div.innerHTML = `
+          <div><strong>${data.user}</strong><br>${data.text}</div>
+          <div class="time">${data.time}</div>
+        `;
+
+        const chat = document.getElementById("chat");
+        chat.appendChild(div);
+        chat.scrollTop = chat.scrollHeight;
+      }
+
       function send(e) {
         e.preventDefault();
         const input = document.getElementById("msg");
@@ -119,18 +134,14 @@
         input.value = "";
       }
 
+      // 🔥 OLD messages (page refresh / new user)
+      socket.on("oldMessages", (msgs) => {
+        msgs.forEach(addMessage);
+      });
+
+      // 🔥 NEW incoming messages
       socket.on("chat", (data) => {
-        const div = document.createElement("div");
-        div.className = "msg " + (data.user === user ? "me" : "other");
-
-        div.innerHTML = `
-      <div><strong>${data.user}</strong><br>${data.text}</div>
-      <div class="time">${data.time}</div>
-    `;
-
-        document.getElementById("chat").appendChild(div);
-        document.getElementById("chat").scrollTop =
-          document.getElementById("chat").scrollHeight;
+        addMessage(data);
       });
     </script>
   </body>
