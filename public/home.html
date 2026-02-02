@@ -52,12 +52,12 @@
       }
 
       .msg {
-        background: white;
+        max-width: 65%;
         padding: 8px 10px;
-        margin-bottom: 8px;
-        border-radius: 6px;
-        max-width: 70%;
-        clear: both;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        font-size: 14px;s
+        line-height: 1.4;
       }
 
       .me {
@@ -66,8 +66,10 @@
       }
 
       .other {
+        background: #ffffff;
         margin-right: auto;
       }
+
 
       .time {
         font-size: 11px;
@@ -127,10 +129,10 @@
 
       #users {
         width: 120px;
-        background: #f0f0f0;
+        background: #f7f7f7;
         padding: 8px;
-        border-right: 1px solid #ccc;
-        overflow-y: auto;
+        font-size: 13px;
+        border-right: 1px solid #ddd;
       }
 
       .users-title {
@@ -138,15 +140,22 @@
         margin-bottom: 6px;
       }
 
-      #userList {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+      #users {
+        width: 120px;
+        background: #f7f7f7;
+        padding: 8px;
+        font-size: 13px;
+        border-right: 1px solid #ddd;
       }
 
       #userList li {
-        padding: 4px 0;
-        font-size: 13px;
+        padding: 6px 4px;
+        border-radius: 4px;
+        cursor: default;
+      }
+
+      #userList li:hover {
+        background: #eaeaea;
       }
 
       #chat-area {
@@ -180,12 +189,26 @@
         padding: 0 12px;
         cursor: pointer;
       }
+
+      .top-bar {
+        background: #075e54;
+        color: white;
+      }
+
+      .top-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+      }
     </style>
   </head>
   <body>
-    <div class="top">
-      <span id="user"></span>
-      <button onclick="logout()">Logout</button>
+    <div class="top-bar">
+      <div class="top-inner">
+        <span id="user"></span>
+        <button onclick="logout()">Logout</button>
+      </div>
     </div>
 
     <div style="display: flex; flex: 1; height: 100%">
