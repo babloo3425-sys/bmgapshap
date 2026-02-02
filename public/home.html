@@ -1,12 +1,104 @@
 <!doctype html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>BmGapShap</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #ece5dd;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .top {
+        background: #075e54;
+        color: white;
+        padding: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #chat {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+      }
+
+      .msg {
+        background: white;
+        padding: 8px 10px;
+        margin-bottom: 8px;
+        border-radius: 6px;
+        max-width: 70%;
+      }
+
+      .me {
+        background: #dcf8c6;
+        margin-left: auto;
+      }
+
+      form {
+        display: flex;
+        border-top: 1px solid #ccc;
+      }
+
+      input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        outline: none;
+      }
+
+      button {
+        background: #25d366;
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
   <body>
-    <h1 id="h"></h1>
+    <div class="top">
+      <span id="user"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <div id="chat"></div>
+
+    <form onsubmit="send(event)">
+      <input id="msg" placeholder="Type a message..." autocomplete="off" />
+      <button>Send</button>
+    </form>
 
     <script>
-      const u = localStorage.getItem("user");
-      if (!u) location.href = "index.html";
-      document.getElementById("h").innerText = "WELCOME " + u;
+      const user = localStorage.getItem("user");
+      if (!user) location.href = "index.html";
+
+      document.getElementById("user").innerText = user;
+
+      function logout() {
+        localStorage.removeItem("user");
+        location.href = "index.html";
+      }
+
+      function send(e) {
+        e.preventDefault();
+        const input = document.getElementById("msg");
+        const text = input.value.trim();
+        if (!text) return;
+
+        const div = document.createElement("div");
+        div.className = "msg me";
+        div.innerText = text;
+
+        document.getElementById("chat").appendChild(div);
+        input.value = "";
+      }
     </script>
   </body>
 </html>
