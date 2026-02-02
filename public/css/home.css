@@ -2,6 +2,9 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #ece5dd;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .top-bar {
@@ -13,15 +16,42 @@ body {
   align-items: center;
 }
 
-.top-bar button {
-  background: #25d366;
-  border: none;
-  padding: 6px 10px;
-  color: white;
-  cursor: pointer;
+#messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
 }
 
-.chat-placeholder {
-  padding: 20px;
-  color: #555;
+.message {
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  background: #fff;
+  border-radius: 6px;
+  width: fit-content;
+  max-width: 70%;
+}
+
+.me {
+  background: #dcf8c6;
+  margin-left: auto;
+}
+
+form {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+form input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+form button {
+  background: #25d366;
+  border: none;
+  padding: 10px 15px;
+  color: white;
+  cursor: pointer;
 }

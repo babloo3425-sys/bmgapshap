@@ -11,8 +11,14 @@
       <button id="logout">Logout</button>
     </div>
 
-    <div class="chat-placeholder">Chat coming soon 💬</div>
+    <div id="messages"></div>
 
+    <form id="chat-form">
+      <input id="msg" placeholder="Type a message..." autocomplete="off" />
+      <button>Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
     <script src="home.js"></script>
   </body>
 </html>
