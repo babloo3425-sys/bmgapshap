@@ -1,24 +1,12 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>BmGapShap</title>
-    <link rel="stylesheet" href="home.css" />
-  </head>
+<html>
   <body>
-    <div class="top-bar">
-      <span id="user"></span>
-      <button id="logout">Logout</button>
-    </div>
+    <h1 id="h"></h1>
 
-    <div id="messages"></div>
-
-    <form id="chat-form">
-      <input id="msg" placeholder="Type a message..." autocomplete="off" />
-      <button>Send</button>
-    </form>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="home.js"></script>
+    <script>
+      const u = localStorage.getItem("user");
+      if (!u) location.href = "index.html";
+      document.getElementById("h").innerText = "WELCOME " + u;
+    </script>
   </body>
 </html>

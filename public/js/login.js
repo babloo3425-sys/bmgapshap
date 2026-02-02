@@ -1,15 +1,9 @@
-const btn = document.getElementById("loginBtn");
-const input = document.getElementById("username");
+document.getElementById("btn").onclick = () => {
+  const name = document.getElementById("username").value.trim();
+  if (!name) return alert("Enter username");
 
-// already logged in → home
-if (localStorage.getItem("username")) {
-  window.location.href = "home.html";
-}
+  localStorage.setItem("username", name);
 
-btn.addEventListener("click", () => {
-  const username = input.value.trim();
-  if (!username) return alert("Username required");
-
-  localStorage.setItem("username", username);
-  window.location.href = "home.html";
-});
+  // 🔥 ALWAYS GO THROUGH INDEX
+  location.replace("/");
+};

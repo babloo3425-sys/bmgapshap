@@ -1,15 +1,16 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>BmGapShap</title>
-  </head>
   <body>
+    <h2>LOGIN</h2>
+    <input id="name" />
+    <button onclick="go()">GO</button>
+
     <script>
-      if (localStorage.getItem("username")) {
-        window.location.href = "home.html";
-      } else {
-        window.location.href = "login.html";
+      function go() {
+        const n = document.getElementById("name").value;
+        if (!n) return alert("name?");
+        localStorage.setItem("user", n);
+        location.href = "home.html";
       }
     </script>
   </body>
