@@ -1,16 +1,29 @@
 <!doctype html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+  </head>
   <body>
     <h2>LOGIN</h2>
-    <input id="name" />
+
+    <input id="name" placeholder="Enter name" />
     <button onclick="go()">GO</button>
 
     <script>
       function go() {
-        const n = document.getElementById("name").value;
-        if (!n) return alert("name?");
-        sessionStorage.setItem("user", name);
-        location.href = "home.html";
+        const n = document.getElementById("name").value.trim();
+
+        if (!n) {
+          alert("Enter name");
+          return;
+        }
+
+        // ✅ per-tab user
+        sessionStorage.setItem("user", n);
+
+        // ✅ go to home
+        window.location.href = "home.html";
       }
     </script>
   </body>
