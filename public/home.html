@@ -73,6 +73,35 @@
         padding: 10px 15px;
         cursor: pointer;
       }
+
+      .msg {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .msg .sender {
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      .msg .img-wrap img {
+        max-width: 220px;
+        border-radius: 8px;
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .msg .text {
+        margin-top: 2px;
+      }
+
+      .time {
+        font-size: 11px;
+        color: #555;
+        text-align: right;
+        margin-top: 4px;
+      }
     </style>
   </head>
   <body>
@@ -83,11 +112,31 @@
 
     <div id="chat"></div>
 
-    <form onsubmit="send(event)">
+    <form onsubmit="send(event)" style="display: flex; align-items: center">
+      <input type="file" id="image" accept="image/*" hidden />
+      <button type="button" onclick="pickImage()">📎</button>
       <input id="msg" placeholder="Type a message..." autocomplete="off" />
       <button>Send</button>
     </form>
 
+    <!-- preview should be ABOVE chat, not below -->
+    <div
+      id="preview"
+      style="
+        position: fixed;
+        bottom: 60px;
+        left: 10px;
+        background: #fff;
+        padding: 8px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        display: none;
+      "
+    >
+      <img id="previewImg" style="max-width: 200px; border-radius: 6px" />
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const user = localStorage.getItem("user");
@@ -95,36 +144,41 @@
       document.getElementById("user").innerText = user;
 
       const socket = io();
+      let selectedImage = null;
 
       function logout() {
         localStorage.removeItem("user");
         location.href = "index.html";
       }
 
-      // 🔹 common function: message add karne ke liye
-      function addMessage(data) {
-        const div = document.createElement("div");
-        div.className = "msg " + (data.user === user ? "me" : "other");
-
-        div.innerHTML = `
-          <div><strong>${data.user}</strong><br>${data.text}</div>
-          <div class="time">${data.time}</div>
-        `;
-
-        const chat = document.getElementById("chat");
-        chat.appendChild(div);
-        chat.scrollTop = chat.scrollHeight;
+      function pickImage() {
+        document.getElementById("image").click();
       }
+
+      document.getElementById("image").addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          selectedImage = reader.result;
+          document.getElementById("previewImg").src = selectedImage;
+          document.getElementById("preview").style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      });
 
       function send(e) {
         e.preventDefault();
         const input = document.getElementById("msg");
         const text = input.value.trim();
-        if (!text) return;
+
+        if (!text && !selectedImage) return;
 
         socket.emit("chat", {
           user,
           text,
+          image: selectedImage,
           time: new Date().toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -132,17 +186,40 @@
         });
 
         input.value = "";
+        selectedImage = null;
+        document.getElementById("preview").style.display = "none";
       }
 
-      // 🔥 OLD messages (page refresh / new user)
-      socket.on("oldMessages", (msgs) => {
-        msgs.forEach(addMessage);
-      });
+      function addMessage(data) {
+        const div = document.createElement("div");
+        div.className = "msg " + (data.user === user ? "me" : "other");
 
-      // 🔥 NEW incoming messages
-      socket.on("chat", (data) => {
-        addMessage(data);
-      });
+        let html = `<div class="sender">${data.user}</div>`;
+
+        if (data.image) {
+          html += `
+            <div class="img-wrap">
+              <img src="${data.image}">
+            </div>
+          `;
+        }
+
+        if (data.text) {
+          html += `<div class="text">${data.text}</div>`;
+        }
+
+        html += `<div class="time">${data.time}</div>`;
+
+        div.innerHTML = html;
+
+        const chat = document.getElementById("chat");
+        chat.appendChild(div);
+        chat.scrollTop = chat.scrollHeight;
+      }
+
+      // ✅ ONLY ONE LISTENER EACH
+      socket.on("oldMessages", (msgs) => msgs.forEach(addMessage));
+      socket.on("chat", addMessage);
     </script>
   </body>
 </html>
